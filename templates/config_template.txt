@@ -1,0 +1,13 @@
+set groups sylog-defaults system syslog host <*> daemon info
+set groups sylog-defaults system syslog host <*> pfe any
+set groups sylog-defaults system syslog host <*> kernel any
+set groups sylog-defaults system syslog host <*> autorization any
+set groups sylog-defaults system syslog host <*> change-log any
+set groups sylog-defaults system syslog host <*> conflict-log any
+set groups sylog-defaults system syslog host <*> dfc any
+set groups sylog-defaults system syslog host <*> firewall any
+set groups sylog-defaults system syslog host <*> facility-override local1
+set groups sylog-defaults system syslog host <*> explicit-priority
+set system host-name {{hostname}}
+set system root-authentication encrypted-password "{{password}}"
+set system services {{services}}
