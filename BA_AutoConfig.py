@@ -5,16 +5,25 @@ import time
 
 app = flask.Flask(__name__)
 
+# TODO: Make a page for the static config, this way we can change both aspects of the config without clutering the page
 
-def get_var_name(template):
-    variable_pattern = r'{{\s*([A-Za-z_][A-Za-z0-9_]*)\s*}}'
-    variable_names = re.findall(variable_pattern, template)
-    return variable_names
 
-def parse_template(file_path):
-    with open(file_path, 'r') as template_file:
-        template_content = template_file.read()
-    return get_var_name(template_content)
+def get_vars(template):
+    with open(template, "r") as template_file:
+        lines = list(template_file.readlines())
+    variables = []
+    for i in range(len(lines)):
+        matched = re.search(r"############## ------------------->", lines[i])
+        
+        if matched:
+            variables.append(lines[i][:matched.start()-1])
+    
+    return variables
+
+def validate_ip(ip):
+    # TODO: check if ip is in correct range
+    # TODO: check if ip location is correct (ex, not using a Paris IP for a device in Toronto)
+    pass
 
 def generate_html_form(variable_names):
     html = f"""<html lang="en">
@@ -38,23 +47,31 @@ def generate_html_form(variable_names):
     </div>
     </section>
 
-    <div class="container" style="width: 20%;">
+    <div class="container" style="width: 50%; padding-top: 3vh">
     <form>
     """
     
     for variable_name in variable_names:
-        label = variable_name.capitalize()
+        label = variable_name
         input_id = variable_name
         html += f"""
-        <div class="field">
-            <label for="{input_id}">{label}:</label>
-            <input class="input is-primary" type="text" size="10" id="{input_id}" name="{input_id}">
+        <div class="columns">
+            <div class="column is-one-half">
+                <label for="{input_id}">{label}: </label>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <p class="control">
+                        <input class="input is-primary" type="text" id="{input_id}" name="{input_id}">
+                    </p>
+                </div>
+            </div>
         </div>
         """
 
     html += """
             <div class="control" style="padding-top: 1vh">
-                <button class="button is-link is-light">Submit</button>
+                <button class="button is-link is-light" id="submit_button">Submit</button>
             </div>
         </form>
     </div>
@@ -65,7 +82,7 @@ def generate_html_form(variable_names):
     with open("templates/index.html", "w") as html_file:
         html_file.write(html)
 
-variable_names = parse_template('templates/config_template.txt')
+variable_names = get_vars("templates/config_template.txt")
 generate_html_form(variable_names)
 print(variable_names)
 
