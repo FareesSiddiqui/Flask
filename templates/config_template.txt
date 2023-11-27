@@ -1,13 +1,23 @@
-set groups sylog-defaults system syslog host <*> daemon info
-set groups sylog-defaults system syslog host <*> pfe any
-set groups sylog-defaults system syslog host <*> kernel any
-set groups sylog-defaults system syslog host <*> autorization any
-set groups sylog-defaults system syslog host <*> change-log any
-set groups sylog-defaults system syslog host <*> conflict-log any
-set groups sylog-defaults system syslog host <*> dfc any
-set groups sylog-defaults system syslog host <*> firewall any
-set groups sylog-defaults system syslog host <*> facility-override local1
-set groups sylog-defaults system syslog host <*> explicit-priority
-set system host-name {{hostname}}
-set system root-authentication encrypted-password "{{password}}"
-set system services {{services}}
+set groups syslog-defaults system syslog host <*> daemon info
+set groups syslog-defaults system syslog host <*> pfe any
+set groups syslog-defaults system syslog host <*> kernel any
+set groups syslog-defaults system syslog host <*> authorization any
+set groups syslog-defaults system syslog host <*> change-log any
+set groups syslog-defaults system syslog host <*> conflict-log any
+set groups syslog-defaults system syslog host <*> dfc any
+set groups syslog-defaults system syslog host <*> firewall any
+set groups syslog-defaults system syslog host <*> facility-override local1
+set groups syslog-defaults system syslog host <*> explicit-priority
+set groups syslog-defaults system syslog time-format year
+set groups syslog-defaults system syslog time-format millisecond
+set system host-name ############## -------------------> HOSTNAME
+set system root-authentication encrypted-password "$5$BAT73XEH$0wU1I95gcIxPbju4FQ5C4/n8zlega.MNbJk5V696DS4"
+set system login retry-options tries-before-disconnect 3
+set system login class operator-local permissions clear
+set system login class operator-local permissions network
+set system login class operator-local permissions reset
+set system login class operator-local permissions trace
+set system login class operator-local permissions view
+set system login class operator-local permissions view-configuration
+set system login class super-user-local permissions all
+set system login class super-user-local allow-commands "(show)"
